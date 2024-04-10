@@ -1,0 +1,59 @@
+\author{Henry Ding}
+
+% xcolor package
+\usepackage[usenames,dvipsnames]{xcolor}
+
+% ams packages
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+% physics package
+\usepackage{physics}
+
+% chemistry package
+\usepackage[version=4]{mhchem}
+
+% siunitx package
+\usepackage{siunitx}
+\AtBeginDocument{\RenewCommandCopy\qty\SI}
+\DeclareSIUnit{\degreeFahrenheit}{\unit{\degree}F}
+\DeclareSIUnit{\degreeRankine}{\unit{\degree}R}
+\DeclareSIUnit{\atm}{atm}
+
+% tikz packages
+\usepackage{tikz}
+
+% Document style
+\newlength{\alphabet}
+\settowidth{\alphabet}{\normalfont abcdefghijklmnopqrstuvwxyz}
+\usepackage[textwidth=2.5\alphabet]{geometry}
+\frenchspacing
+\usepackage[protrusion=true, expansion=true]{microtype}
+
+% subfiles and standalone packages
+\usepackage{standalone}
+\usepackage{subfiles} % best loaded last in the preamble
+
+% Theorems
+\usepackage{thmtools}
+\usepackage[framemethod=TikZ]{mdframed}
+\mdfsetup{skipabove=1em,skipbelow=0em}
+
+% source: https://github.com/gillescastel/lecture-notes/blob/master/algebraic-topology/preamble.tex
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{ForestGreen!70!black}, bodyfont=\normalfont,
+	mdframed={linewidth=2pt, rightline=false, topline=false, bottomline=false, linecolor=ForestGreen, backgroundcolor=ForestGreen!5,}
+]{thmgreenbox}
+
+% source: https://github.com/gillescastel/lecture-notes/blob/master/algebraic-topology/preamble.tex
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{NavyBlue!70!black}, bodyfont=\normalfont,
+	mdframed={linewidth=2pt, rightline=false, topline=false, bottomline=false, linecolor=NavyBlue, backgroundcolor=NavyBlue!5,}
+]{thmbluebox}
+
+\declaretheorem[style=thmgreenbox, name=Problem]{prob}
+\declaretheorem[style=thmbluebox, name=Solution]{sol}
+
+% differential operator
+\newcommand{\diff}{\ensuremath{\operatorname{d}\!}}

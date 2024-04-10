@@ -1,0 +1,48 @@
+\documentclass[12pt]{extarticle}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{enumitem}
+
+\input{preamble.tex}
+\title{PSET6}
+\author{Henry Ding24}
+\date{April 2024}
+
+\begin{document}
+
+\maketitle
+
+\begin{prob}
+	A simple question:
+	\begin{enumerate}[label=(\alph*)]
+		\item Show that if G is a simple graph, then $\varepsilon \leq \binom{v}{2}$
+		\item Show that $\varepsilon = \binom{v}{2}$ if and only if $G$ is complete.
+	\end{enumerate}
+\end{prob}
+
+\begin{prob}
+	Recall that the \textit{degree} of a vertex $d(v)$ in $G$ is the number of edges incident with $v$.
+	\begin{enumerate}[label=(\alph*)]
+		\item Explain why \begin{equation}
+			      \sum_{v\in V}d(v) = 2\varepsilon
+		      \end{equation}
+		\item Prove that, in any graph, there is an even number of vertices of odd degree.
+		\item Show that in a simple graph (with $|V| > 1$), there are at least two vertices with the same degree.
+	\end{enumerate}
+\end{prob}
+
+\begin{prob}
+	Prove that in any group (of two or more people), there must be two people with the same number of firneds in that group. Assume that friendship is symmetric.
+	\begin{enumerate}[label=(\alph*)]
+		\item Justify this claim using the Pigeonhole Principle.
+		\item Justify this claim with Graph Theory.
+	\end{enumerate}
+\end{prob}
+
+\begin{prob}
+	Let $S = \{x_1, x_2, \ldots, x_n\}$ be a set of points in the coordinate plane such that $|x_i - x_j| \geq 1$ for $i \neq j$. Show that there are at most $3n$ pairs of points whose distance is exactly $1$.
+\end{prob}
+
+\end{document}
+

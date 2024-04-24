@@ -3,25 +3,55 @@
 \usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{enumitem}
+\setlist{listparindent=\parindent, parsep=0pt,}
 
 \input{preamble.tex}
 \title{PSET6}
-\author{Henry Ding24}
+\author{Henry Ding}
 \date{April 2024}
 
 \begin{document}
 
 \maketitle
 
-\begin{prob}
+\begin{prob} \label{prob:problem_1}
 	A simple question:
 	\begin{enumerate}[label=(\alph*)]
 		\item Show that if G is a simple graph, then $\varepsilon \leq \binom{v}{2}$
-		\item Show that $\varepsilon = \binom{v}{2}$ if and only if $G$ is complete.
+		\item Show that $\varepsilon = \binom{v}{2}$ if and only if $G$ is also complete (assuming it is simple).
 	\end{enumerate}
 \end{prob}
 
-\begin{prob}
+\begin{sol}
+	A simple solution:
+	\begin{enumerate}[label=(\alph*)]
+		\item
+		      Since $G$ is a simple graph, there is at most one edge between two vertices and no edge connects a vertex to itself.
+		      Therefore, for any pair of distinct vertices, there is at most one edge connecting them, and all edges must connect two distinct vertices.
+		      The number of pairs of distinct vertices is $\binom{v}{2}$, so
+		      \begin{equation}
+			      \varepsilon \leq \binom{v}{2}.
+		      \end{equation}
+		\item We aim to prove both directions of the biconditional. Note that $G$ is a simple graph.
+		      \begin{enumerate}[label=\arabic*.]
+			      \item We aim to show that if $G$ is complete, then $\varepsilon = \binom{v}{2}$.
+			            Because $G$ is complete, then each vertex is connect by an edge to every other vertex.
+			            Because $G$ is also simple, we also know that each vertex is connected by exactly \emph{one} to every other vertex.
+			            The number of edges then equals the number of pairs of distinct vertices, which is given by $\binom{v}{2}$.
+			            Therefore,
+			            \begin{equation}
+				            \varepsilon = \binom{v}{2}
+			            \end{equation}
+			      \item We aim to show that if $\varepsilon = \binom{v}{2}$, then $G$ is complete.
+			            First, note that if all of those unconnected vertex pairs are connected by exactly one edge, then the number of edges $\varepsilon = \binom{v}{2}$.
+			            Suppose towards contradiction that there exist a some pairs of vertices that have no edge connecting them but all pairs of vertices are connected by at most one edge(so $G$ is simple but not complete).
+			            Then, the number of edges must be less than if all of those unconnected vertex pairs were connected by exactly one edge, or $\varepsilon < \binom{v}{2}$.
+			            However, this contradicts the assumption that $\varepsilon = \binom{v}{2}$, so there does not exist any pairs of vertices that have no edge connecting them.
+		      \end{enumerate}
+	\end{enumerate}
+\end{sol}
+
+\begin{prob} \label{prob:problem_2}
 	Recall that the \textit{degree} of a vertex $d(v)$ in $G$ is the number of edges incident with $v$.
 	\begin{enumerate}[label=(\alph*)]
 		\item Explain why \begin{equation}
@@ -32,17 +62,140 @@
 	\end{enumerate}
 \end{prob}
 
-\begin{prob}
-	Prove that in any group (of two or more people), there must be two people with the same number of firneds in that group. Assume that friendship is symmetric.
+\begin{sol} \hfill
 	\begin{enumerate}[label=(\alph*)]
-		\item Justify this claim using the Pigeonhole Principle.
-		\item Justify this claim with Graph Theory.
+		\item To count the number of edges in a graph, we can start by adding together the degree of all vertices, which can be written as the expression
+		      \begin{equation}
+			      \sum_{v\in V} d(v). \label{eq:sum_vertex_degrees}
+		      \end{equation}
+		      However, some pairs of vertices must be adjacent, so Eq.~\eqref{eq:sum_vertex_degrees} over counts the number of edges as there are some duplicate edges in the count.
+		      Every edge is connected to two vertices (or a single vertex twice), so Eq.~\eqref{eq:sum_vertex_degrees} exactly double counts the number of edges.
+		      Therefore,
+		      \begin{equation}
+			      \sum_{v\in V}d(v) = 2 \varepsilon. \label{eq:p2_vertex_edge_relation}
+		      \end{equation}
+
+		      Note that in the case where an edge connects a vertex $x_1$ to itself in a loop, the edge contributes $2$ to $d(x_1)$, so Eq.~\eqref{eq:sum_vertex_degrees} would still double count the edge.
+		\item Note that Eq.~\eqref{eq:p2_vertex_edge_relation} implies that the expression
+		      \begin{equation}
+			      \sum_{v\in V} d(v) = 2 \varepsilon
+		      \end{equation}
+		      is even, since $\varepsilon \in \mathbb{Z}^+$.
+		      Also, note that the number of vertices of odd degree is either odd or even.
+
+		      Suppose towards contradiction that there is an odd number of vertices of odd degree in $G$.
+		      Define two sets
+		      \begin{align*}
+			      O & = \{x \in V : 2 \nmid d(x) \} \\
+			      E & = \{x \in V : 2 \mid d(x) \}
+		      \end{align*}
+		      Note that $d(v)$ is either even or odd but not both, so $V = O \cup E$ and $O \cap E = \varnothing$.
+		      Therefore,
+		      \begin{equation}
+			      \sum_{v\in V} d(v) = \sum_{x_O \in O} d(x_O) + \sum_{x_E \in E} d(x_E). \label{eq:p2_odd_even_sum}
+		      \end{equation}
+		      Note that every addend in the first term of Eq.~\eqref{eq:p2_odd_even_sum} is odd and there are an odd number of addends, so the first term is odd.
+		      Every addend in the second term of Ed.~\eqref{eq:p2_odd_even_sum} is even, so the second term is even.
+		      Therefore, both sides of Eq.~\eqref{eq:p2_odd_even_sum} is odd.
+		      However, this contradicts the Eq.~\eqref{eq:p2_vertex_edge_relation} result from part (a) that
+		      \begin{equation*}
+			      \sum_{v\in V} d(v)
+		      \end{equation*}
+		      is even.
+		      Therefore, there is an even number vertices of odd degree in $G$.
+		\item First, note that for any vertex $v$, $d(v) \in \mathbb{N}$.
+		      There are two cases:
+		      \begin{enumerate} [label=\arabic*.]
+			      \item Suppose some vertex connects with every other vertex by an edge so that its degree is $|V| - 1$.
+			            Then, there are no vertices that do not connect to any other vertices, so there are no vertices with degree $0$.
+			            Because the graph is simple, a vertex can only be connected by a single edge to a different vertex.
+			            For any single vertex, there are only $|V-1|$ other vertices, so the maximum degree of a vertex is $|V| - 1$.
+			            Therefore, the degrees of any vertices $v$ must fall in the interval
+			            \begin{equation}
+				            1 \leq d(v) \leq |V| - 1, \label{eq:p2_case1_range}
+			            \end{equation}
+			            which corresponds to $|V| - 1$ distinct values for the degree of a vertex.
+			            There are $|V|$ vertices, so by the Pigeon Hole Principle, there are at least two vertices with the same degree.
+
+			            Note that $|V| > 1$, so Eq.~\eqref{eq:p2_case1_range} always leaves least one distinct value for $d(v)$ that we can apply the Pigeon Hole Principle to.
+			      \item Suppose there is no vertex that connects with every other vertex by an edge.
+			            Because the graph is simple, a vertex can only be connected by a single edge to a different vertex.
+			            For any single vertex, there are only $|V|-1$ other vertices, so the maximum degree of a vertex is $|V| - 1$.
+			            Then, in this case, there are no vertices with degree $|V| - 1$ or greater.
+			            Therefore, the degrees of any vertices $v$ must fall in the interval
+			            \begin{equation}
+				            0 \leq d(v) \leq |V| - 2, \label{eq:p2_case2_range}
+			            \end{equation}
+			            which corresponds to $|V| - 1$ distinct values for the degree of a vertex.
+			            There are $|V|$ vertices, so by the Pigeon Hole Principle, there are at least two vertices with the same degree.
+
+			            Note that $|V| > 1$, so Eq.~\eqref{eq:p2_case2_range} always leaves least one distinct value for the degree of a vertex.
+		      \end{enumerate}
 	\end{enumerate}
+\end{sol}
+
+
+\begin{prob} \label{prob:problem_3}
+	Prove that in any group (of two or more people), there must be two people with the same number of friends in that group. Assume that friendship is symmetric.
 \end{prob}
 
-\begin{prob}
+\begin{sol}
+	Create a graph $G$ such that each person is assigned a vertex. Also, if two distinct people are friends, then the vertices assigned to those two people is connected by an edge.
+
+	Note that two people are either friends or not friends, so there is at maximum one edge connecting two vertices in $G$.
+	Also, note that in defining $G$ earlier, an edge can only connect two distinct vertices for two distinct people.
+	Therefore, as defined, $G$ is a simple graph.
+	Also, $G$ has at least two vertices, since the group has two or more people.
+
+	Because $G$ is simple and has at least two vertices, the result from Problem~\ref{prob:problem_2}c tells us that there are two vertices with the same degree.
+	Therefore, there are two people with the same number of friends.
+\end{sol}
+
+\begin{prob} \label{prob:problem_4}
 	Let $S = \{x_1, x_2, \ldots, x_n\}$ be a set of points in the coordinate plane such that $|x_i - x_j| \geq 1$ for $i \neq j$. Show that there are at most $3n$ pairs of points whose distance is exactly $1$.
 \end{prob}
+
+\begin{sol} \label{sol:solution_4}
+	Define a graph $G$ such that every element of $S$ corresponds to a vertex and two points who are exactly distance $1$ apart are connected by exactly one edge.
+
+	First, we aim to show that for any given vertex in $G$, its maximum degree is $6$.
+	Consider an arbitrary point $x_\alpha$ corresponding to vertex $v_\alpha$.
+	Any adjacent vertex to $v_\alpha$ in must correspond to a point on a circle $O$ of radius $1$ centered on $x_\alpha$.
+	Suppose towards contradiction that $n > 6$ points from $S$ are on circle $O$.
+	Consider the $n$ arcs joining two adjacent points (I'm \emph{not} referring to vertex adjacency here, just two points that have no other point in between them on $O$.)
+
+	Next, suppose towards contradiction (again) that none of the $n$ arcs have a central angle less than $\pi / 3$.
+	Then, the sum of the central angles of the $n$ arcs must sum to greater than $2\pi$ because $n > 6$.
+	However, the $n$ arcs form a circle together, meaning the sum of their central angles must equal $2\pi$.
+	Therefore, there must exist one of the $n$ arcs with a central angle less than $\pi / 3$ between some points $x_\beta$ and $x_\gamma$ by contradiction.
+
+	Now that we proven that they exist, consider the distinct points $x_\beta$ and $x_\gamma$ in $S$ and on Circle $O$, where the minor arc formed $x_\beta, x_\gamma$ subtends a central angle $0 < \theta < \pi / 3$.
+	Form a triangle with points $x_\alpha$, $x_\beta$, and $x_\gamma$.
+	The Law of Cosines gives the distance $d_{\beta\gamma}$ between $x_\beta, x_\gamma$ as
+	\begin{align}
+		d_{\beta\gamma} & = 1^2 + 1^2 - 2 \cdot 1 \cdot 1 \cdot \cos(\theta) \\
+		                & = 2 - 2\cos(\theta)                                \\
+		                & < 2 - 2\cos(\pi / 3)                               \\
+		                & < 1, \label{eq:p4_circle_point_distance}
+	\end{align}
+	where we have used the facts that the distance between $x_\alpha$ and $x_\beta$ is $1$ because $x_\beta$ is on $O$, the distance between $x_\alpha$ and $x_\gamma$ is $1$ because $x_\gamma$ is on $O$, and $\cos(\theta) > \cos(\pi / 3)$ for $0 < \theta < \pi / 3$.
+	However, Eq.~\eqref{eq:p4_circle_point_distance} contradicts the assumption that any two distinct points in $S$, including $x_\beta, x_\gamma$, have a distance greater than or equal to $1$.
+	Therefore, there can not exist more than $6$ points from $S$ on circle $O$ by contradiction.
+
+	Next, we aim to show that the maximum number of edges in $G$ is $3n$.
+	Suppose towards contradiction that number of edges $\varepsilon$ in $G$ is greater than $3n$.
+	Then, Eq.~\eqref{eq:p2_vertex_edge_relation} implies
+	\begin{equation}
+		\sum_{v_i}^n d(v_i) > 6n
+	\end{equation}
+	where $v_i$ is an indexed vertex of $G$ and $d(v)$ is the degree of vertex $v_i$.
+	By the Pigeon Hole Principle, there must exist some vertex $v_0$ such that $d(v_0) > 6$.
+	However, we have previously shown that the maximum number of edges of $G$ is $6$.
+	Therefore, the number of edges $\varepsilon$ is at most $3n$ by contradiction.
+
+	From our definition of $G$, each edge corresponds to a single pair of two points that are exactly distance $1$ apart.
+	Because $\varepsilon \leq 3n$, the number of pairs of two points distance $1$ apart is at most $3n$.
+\end{sol}
 
 \end{document}
 
